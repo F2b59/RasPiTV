@@ -34,6 +34,18 @@ def reboot():
                 return 'error'
         return render_template('reboot.html', **templateData)
 
+@app.route('/stop.html')
+def stop():
+        message = ''
+        templateData = {
+                'result' : message
+        }
+        try:
+                os.system('killall omxplayer.bin')
+        except:
+                return 'error'
+        return render_template('stop.html', **templateData)
+
 @app.route('/01.html')
 def ch01():
         message = ''
