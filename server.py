@@ -47,7 +47,7 @@ def ch01():
         return render_template('01.html', **templateData)
 
 @app.route('/02.html')
-def ch01():
+def ch02():
         message = ''
         templateData = {
                 'result' : message
@@ -59,7 +59,7 @@ def ch01():
         return render_template('02.html', **templateData)
 
 @app.route('/03.html')
-def ch01():
+def ch03():
         message = ''
         templateData = {
                 'result' : message
@@ -71,7 +71,7 @@ def ch01():
         return render_template('03.html', **templateData)
 
 @app.route('/04.html')
-def ch01():
+def ch04():
         message = ''
         templateData = {
                 'result' : message
@@ -83,7 +83,7 @@ def ch01():
         return render_template('04.html', **templateData)
 
 @app.route('/05.html')
-def ch01():
+def ch05():
         message = ''
         templateData = {
                 'result' : message
@@ -95,7 +95,7 @@ def ch01():
         return render_template('05.html', **templateData)
 
 @app.route('/06.html')
-def ch01():
+def ch06():
         message = ''
         templateData = {
                 'result' : message
@@ -107,7 +107,7 @@ def ch01():
         return render_template('06.html', **templateData)
 
 @app.route('/07.html')
-def ch01():
+def ch07():
         message = ''
         templateData = {
                 'result' : message
@@ -119,7 +119,7 @@ def ch01():
         return render_template('07.html', **templateData)
 
 @app.route('/08.html')
-def ch01():
+def ch08():
         message = ''
         templateData = {
                 'result' : message
@@ -131,7 +131,7 @@ def ch01():
         return render_template('08.html', **templateData)
 
 @app.route('/09.html')
-def ch01():
+def ch09():
         message = ''
         templateData = {
                 'result' : message
