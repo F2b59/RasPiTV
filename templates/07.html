@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+   <head>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <meta http-equiv="refresh" content="1;URL=./">
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+        <title>{{ title }}</title>
+	
+        <style>
+        body {
+                color: #f0f0f0;
+                background-color: #333333;
+                font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        .container {
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                flex-direction: column;
+                height: 100vh;
+        }
+        .container__button {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                text-align: center;
+        }
+        .button {
+                display: block;
+                width: 7em;
+                height: 7em;
+                border-radius: 50%;
+        }
+        .button--red {
+                background-color: red;
+        }
+        .button--yellow {
+                background-color: yellow;
+        }
+        </style>
+   </head>
+   <body>
+        <div class="container">
+                {{success}}
+                <div class="container__button">
+                        <h2>Success</h2>
+                </div>
+        </div>
+   </body>
+</html>
