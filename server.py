@@ -53,7 +53,7 @@ def ch01():
                 'result' : message
         }
         try:
-                os.system('/channels/01.sh')
+                os.system('/home/pi/remote-raspberry/channels/01.sh')
         except:
                 return 'error'
         return render_template('01.html', **templateData)
@@ -65,7 +65,7 @@ def ch02():
                 'result' : message
         }
         try:
-                os.system('/home/pi/tv/02.sh')
+                os.system('/home/pi/remote-raspberry/channels/02.sh')
         except:
                 return 'error'
         return render_template('02.html', **templateData)
@@ -77,7 +77,7 @@ def ch03():
                 'result' : message
         }
         try:
-                os.system('/home/pi/tv/03.sh')
+                os.system('/home/pi/remote-raspberry/channels/03.sh')
         except:
                 return 'error'
         return render_template('03.html', **templateData)
@@ -89,7 +89,7 @@ def ch04():
                 'result' : message
         }
         try:
-                os.system('/home/pi/tv/04.sh')
+                os.system('/home/pi/remote-raspberry/channels/04.sh')
         except:
                 return 'error'
         return render_template('04.html', **templateData)
@@ -101,7 +101,7 @@ def ch05():
                 'result' : message
         }
         try:
-                os.system('/home/pi/tv/05.sh')
+                os.system('/home/pi/remote-raspberry/channels/05.sh')
         except:
                 return 'error'
         return render_template('05.html', **templateData)
@@ -113,7 +113,7 @@ def ch06():
                 'result' : message
         }
         try:
-                os.system('/home/pi/tv/06.sh')
+                os.system('/home/pi/remote-raspberry/channels/06.sh')
         except:
                 return 'error'
         return render_template('06.html', **templateData)
@@ -125,7 +125,7 @@ def ch07():
                 'result' : message
         }
         try:
-                os.system('/home/pi/tv/07.sh')
+                os.system('/home/pi/remote-raspberry/channels/07.sh')
         except:
                 return 'error'
         return render_template('07.html', **templateData)
@@ -137,7 +137,7 @@ def ch08():
                 'result' : message
         }
         try:
-                os.system('/home/pi/tv/08.sh')
+                os.system('/home/pi/remote-raspberry/channels/08.sh')
         except:
                 return 'error'
         return render_template('08.html', **templateData)
@@ -149,7 +149,7 @@ def ch09():
                 'result' : message
         }
         try:
-                os.system('/home/pi/tv/09.sh')
+                os.system('/home/pi/remote-raspberry/channels/09.sh')
         except:
                 return 'error'
         return render_template('09.html', **templateData)
