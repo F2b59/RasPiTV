@@ -53,7 +53,7 @@ def ch01():
                 'result' : message
         }
         try:
-                os.system('./channels/01.sh')
+                os.system('/channels/01.sh')
         except:
                 return 'error'
         return render_template('01.html', **templateData)
