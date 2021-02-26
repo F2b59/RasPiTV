@@ -10,9 +10,6 @@ import channels # list of channels
 ch = []  # list of char
 
 
-### TO DO: REWORK INDENTATION
-
-
 @app.route('/')
 def index():
     global ch
@@ -22,28 +19,20 @@ def index():
         'error': ''
     }
     if len(ch) == 2:
-        try:
+        channel = ''.join(ch)
+        channel = channels.List[int(channel) - 1][0] # get the address of the stream
+        os.system('killall omxplayer.bin')
+        os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
+        ch = []
+    elif len(ch) == 1:
+        tmp = ch.copy()
+        sleep(2) # waiting time
+        if ch == tmp:
             channel = ''.join(ch)
             channel = channels.List[int(channel) - 1][0] # get the address of the stream
             os.system('killall omxplayer.bin')
             os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
             ch = []
-        except:
-            templateData['error'] = 'Failed to play video'
-            ch = []
-    elif len(ch) == 1:
-            tmp = ch.copy()
-            sleep(2) # waiting time
-            if ch == tmp:
-                try:
-                    channel = ''.join(ch)
-                    channel = channels.List[int(channel) - 1][0] # get the address of the stream
-                    os.system('killall omxplayer.bin')
-                    os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
-                    ch = []
-                except:
-                    templateData['error'] = 'Failed to play video'
-                    ch = []
     return render_template('index.html', **templateData)
 
 
@@ -103,7 +92,7 @@ def stop():
 
 @app.route('/list')
 def displayList():
-    return '\n'.join([channels.List[i][0] + ', ' + channels.List[i][1] for i in range(len(channels.List))])
+    return '<html><body>' + '<br>'.join([channels.List[i][0] + ', ' + channels.List[i][1] for i in range(len(channels.List))]) + '</body></html>'
 
 
 if __name__ == '__main__':
