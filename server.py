@@ -26,7 +26,7 @@ def index():
             channel = ''.join(ch)
             channel = channels.List[channel - 1][0] # get the address of the stream
             os.system('killall omxplayer.bin')
-            os.system('nohup omxplayer --live -o alsa:hw:CARD=Device %s > nohup.out 2> nohup.err < /dev/null &') % channel
+            os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
             ch = []
         except:
             templateData['error'] = 'Failed to play video'
@@ -39,7 +39,7 @@ def index():
                     channel = ''.join(ch)
                     channel = channels.List[channel - 1][0] # get the address of the stream
                     os.system('killall omxplayer.bin')
-                    os.system('nohup omxplayer --live -o alsa:hw:CARD=Device %s > nohup.out 2> nohup.err < /dev/null &') % channel
+                    os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
                     ch = []
                 except:
                     templateData['error'] = 'Failed to play video'
