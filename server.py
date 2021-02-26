@@ -24,7 +24,7 @@ def index():
     if len(ch) == 2:
         try:
             channel = ''.join(ch)
-            channel = channels.List[channel - 1][0] # get the address of the stream
+            channel = channels.List[int(channel) - 1][0] # get the address of the stream
             os.system('killall omxplayer.bin')
             os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
             ch = []
@@ -37,7 +37,7 @@ def index():
             if ch == tmp:
                 try:
                     channel = ''.join(ch)
-                    channel = channels.List[channel - 1][0] # get the address of the stream
+                    channel = channels.List[int(channel) - 1][0] # get the address of the stream
                     os.system('killall omxplayer.bin')
                     os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
                     ch = []
