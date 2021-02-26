@@ -1,158 +1,99 @@
 #!/usr/bin/python3
-from flask import Flask, render_template
-app = Flask(__name__)
 import os
+from flask import Flask, render_template, render_template_string, redirect, request
+from time import sleep
+app = Flask(__name__)
+
+
+import channels # list of channels
+
+ch = []  # list of char
+
 
 @app.route('/')
 def index():
-        templateData = {
-                'title' : 'Remote Controller'
-        }
-        return render_template('index.html', **templateData)
+    global ch
+    templateData = {
+        'title': 'Remote Controller',
+        'ch': 'Selection : ' + ''.join(ch),
+        'error': ''
+    }
+    if len(ch) == 2:
+        channel = ''.join(ch)
+        channel = channels.List[int(channel) - 1][0] # get the address of the stream
+        os.system('killall omxplayer.bin')
+        os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
+        ch = []
+    elif len(ch) == 1:
+        tmp = ch.copy()
+        sleep(2) # waiting time
+        if ch == tmp:
+            channel = ''.join(ch)
+            channel = channels.List[int(channel) - 1][0] # get the address of the stream
+            os.system('killall omxplayer.bin')
+            os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
+            ch = []
+    return render_template('index.html', **templateData)
 
-@app.route('/shutdown.html')
+
+@app.route('/setch', methods=['POST'])
+def setCh():
+    global ch
+    ch.append(request.form["ch_select"])
+    return redirect(request.referrer)
+
+
+@app.route('/shutdown', methods=['POST'])
 def shutDown():
-        message = ''
-        templateData = {
-                'result' : message
-        }
-        try:
-                os.system('sudo shutdown -h now')
-        except:
-                return 'error'
-        return render_template('shutdown.html', **templateData)
+    templateData = {
+        'title': 'Remote Controller',
+        'ch': '',
+        'error': ''
+    }
+    try:
+        os.system('sudo shutdown -h now')
+    except:
+        templateData['error'] = 'Failed to shut down'
+        return render_template('index.html', **templateData)
+    templateData['ch'] = 'Shut Down'
+    return render_template('index.html', **templateData)
 
-@app.route('/reboot.html')
+
+@app.route('/reboot', methods=['POST'])
 def reboot():
-        message = ''
-        templateData = {
-                'result' : message
-        }
-        try:
-                os.system('sudo reboot')
-        except:
-                return 'error'
-        return render_template('reboot.html', **templateData)
+    templateData = {
+        'title': 'Remote Controller',
+        'ch': '',
+        'error': ''
+    }
+    try:
+        os.system('sudo reboot')
+    except:
+        templateData['error'] = 'Failed to reboot'
+        return render_template('index.html', **templateData)
+    templateData['ch'] = 'Reboot'
+    return render_template('reboot.html', **templateData)
 
-@app.route('/stop.html')
+
+@app.route('/stop', methods=['POST'])
 def stop():
-        message = ''
-        templateData = {
-                'result' : message
-        }
-        try:
-                os.system('killall omxplayer.bin')
-        except:
-                return 'error'
-        return render_template('stop.html', **templateData)
+    templateData = {
+        'title': 'Remote Controller',
+        'ch': '',
+        'error': ''
+    }
+    try:
+        os.system('killall omxplayer.bin')
+    except:
+        templateData['error'] = 'Failed to kill OMXPlayer'
+        return render_template('index.html', **templateData)
+    return redirect(request.referrer)
 
-@app.route('/01.html')
-def ch01():
-        message = ''
-        templateData = {
-                'result' : message
-        }
-        try:
-                os.system('/home/pi/remote-raspberry/channels/01.sh')
-        except:
-                return 'error'
-        return render_template('01.html', **templateData)
 
-@app.route('/02.html')
-def ch02():
-        message = ''
-        templateData = {
-                'result' : message
-        }
-        try:
-                os.system('/home/pi/remote-raspberry/channels/02.sh')
-        except:
-                return 'error'
-        return render_template('02.html', **templateData)
+@app.route('/list')
+def displayList():
+    return '<html><body>' + '<br>'.join([channels.List[i][0] + ', ' + channels.List[i][1] for i in range(len(channels.List))]) + '</body></html>'
 
-@app.route('/03.html')
-def ch03():
-        message = ''
-        templateData = {
-                'result' : message
-        }
-        try:
-                os.system('/home/pi/remote-raspberry/channels/03.sh')
-        except:
-                return 'error'
-        return render_template('03.html', **templateData)
 
-@app.route('/04.html')
-def ch04():
-        message = ''
-        templateData = {
-                'result' : message
-        }
-        try:
-                os.system('/home/pi/remote-raspberry/channels/04.sh')
-        except:
-                return 'error'
-        return render_template('04.html', **templateData)
-
-@app.route('/05.html')
-def ch05():
-        message = ''
-        templateData = {
-                'result' : message
-        }
-        try:
-                os.system('/home/pi/remote-raspberry/channels/05.sh')
-        except:
-                return 'error'
-        return render_template('05.html', **templateData)
-
-@app.route('/06.html')
-def ch06():
-        message = ''
-        templateData = {
-                'result' : message
-        }
-        try:
-                os.system('/home/pi/remote-raspberry/channels/06.sh')
-        except:
-                return 'error'
-        return render_template('06.html', **templateData)
-
-@app.route('/07.html')
-def ch07():
-        message = ''
-        templateData = {
-                'result' : message
-        }
-        try:
-                os.system('/home/pi/remote-raspberry/channels/07.sh')
-        except:
-                return 'error'
-        return render_template('07.html', **templateData)
-
-@app.route('/08.html')
-def ch08():
-        message = ''
-        templateData = {
-                'result' : message
-        }
-        try:
-                os.system('/home/pi/remote-raspberry/channels/08.sh')
-        except:
-                return 'error'
-        return render_template('08.html', **templateData)
-
-@app.route('/09.html')
-def ch09():
-        message = ''
-        templateData = {
-                'result' : message
-        }
-        try:
-                os.system('/home/pi/remote-raspberry/channels/09.sh')
-        except:
-                return 'error'
-        return render_template('09.html', **templateData)
-
-if __name__=='__main__':
-        app.run(debug=True, port=80, host='0.0.0.0')
+if __name__ == '__main__':
+    app.run(debug=True, port=80, host='0.0.0.0')
