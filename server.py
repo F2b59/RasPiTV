@@ -6,8 +6,12 @@ app = Flask(__name__)
 
 
 import channels # list of channels
+import logos # list of logos
 
 ch = []  # list of char
+
+for line in logos.raspitv:
+    print(line)
 
 
 @app.route('/')
@@ -19,18 +23,22 @@ def index():
         'error': ''
     }
     if len(ch) == 2:
-        channel = ''.join(ch)
-        channel = channels.List[int(channel) - 1][0] # get the address of the stream
+        channel_nb = int(''.join(ch))
+        channel = channels.List[channel_nb - 1][0] # get the address of the stream
         stop() #os.system('killall omxplayer.bin')
+        for line in logos.List[channel_nb - 1]:
+            print(line)
         os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
         ch = []
     elif len(ch) == 1:
         tmp = ch.copy()
         sleep(2) # waiting time
         if ch == tmp:
-            channel = ''.join(ch)
-            channel = channels.List[int(channel) - 1][0] # get the address of the stream
+            channel_nb = int(''.join(ch))
+            channel = channels.List[channel_nb - 1][0] # get the address of the stream
             stop() #os.system('killall omxplayer.bin')
+            for line in logos.List[channel_nb - 1]:
+                print(line)
             os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
             ch = []
     return render_template('index.html', **templateData)
