@@ -12,6 +12,7 @@ ch = []  # list of char
 
 for line in logos.raspitv:
     print(line)
+os.system('hostname -I')
 
 
 @app.route('/')
