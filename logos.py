@@ -12,8 +12,7 @@ raspitv = ["________________________________________________",
            "                                                ",
            "                                                ",
            "Démarrage terminé",
-           "Télécommande accessible à l'adresse :",
-           "192.168.1.106"]
+           "Télécommande accessible à l'adresse :"]
 
 ch1 = ["dddddddhhhhhyyyyyyyyyyyyyssssssssssssssssssssssssssyyyyyyyyyyyhhhhhhhddd",
        "dddddddhhhhhyyyyyyyyyyyyyssssssssssssssssssssssssssyyyyyyyyyyyhhhhhhhddd",
