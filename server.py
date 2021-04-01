@@ -55,7 +55,6 @@ def setCh():
 @app.route('/custom', methods=['POST'])
 def customStream():
     stream = request.form["addr"]
-    print("Success !!! Address: " + stream)
     stop()
     os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + stream + ' > nohup.out 2> nohup.err < /dev/null &')
     return redirect(request.referrer)
@@ -63,7 +62,9 @@ def customStream():
 
 @app.route('/customyt', methods=['POST'])
 def customYT():
-    print("Success !!! Address : " + request.form["addr"])
+    url = request.form["addr"]
+    stop()
+    os.system('nohup omxplayer --live -o alsa:hw:CARD=Device $(youtube-dl -g -f mp4 ' + url + ') > nohup.out 2> nohup.err < /dev/null &')
     return redirect(request.referrer)
 
 
