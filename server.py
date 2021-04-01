@@ -52,6 +52,21 @@ def setCh():
     return redirect(request.referrer)
 
 
+@app.route('/custom', methods=['POST'])
+def customStream():
+    stream = request.form["custom"]
+    print("Success !!! Address: " + stream)
+    stop()
+    os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + stream + ' > nohup.out 2> nohup.err < /dev/null &')
+    return redirect(request.referrer)
+
+
+@app.route('/customyt', methods=['POST'])
+def customYT():
+    print("Success !!! Address : " + request.form["customyt"])
+    return redirect(request.referrer)
+
+
 @app.route('/shutdown', methods=['POST'])
 def shutDown():
     templateData = {
