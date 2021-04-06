@@ -27,7 +27,7 @@ I'm assuming you're using Raspberry Pi OS (aka Raspbian)
 When the server is running, you can reach the frontend writing the IP address of your Raspberry Pi on the browser. This address is given under the __RasPiTV__ logo at startup.
 
 This is what you will see (from a smartphone):
-![RaspberryPi Remote Controller Screenshot](/screenshot/RaspberryPi_remote_screenshot.png "RaspberryPi Remote Controller")
+![RaspberryPi Remote Controller Screenshot](/screenshot/Screenshot_20210406_120313.jpg "RasPiTV web interface")
 
 Just press a button to start watching TV.
 I suggest to give a static IP to your Pi and put a shortcut on the home screen of your phone.
