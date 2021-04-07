@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import os
-from flask import Flask, render_template, render_template_string, redirect, request
+from flask import Flask, render_template, render_template_string, redirect, url_for, request
 from time import sleep
 app = Flask(__name__)
 
@@ -67,21 +67,8 @@ def customStream():
         'ch': 'Selection : ' +  url,
         'error': ''
     }
-    #return render_template('index.html', **templateData)
-    return redirect(url_for('index', **templateData))
+    return redirect(request.referrer)
 
-
-#@app.route('/customyt', methods=['POST'])
-#def customYT():
-#    url = request.form["addr"]
-#    stop()
-#    os.system('nohup omxplayer --live -o alsa:hw:CARD=Device $(youtube-dl -g -f mp4 ' + url + ') > nohup.out 2> nohup.err < /dev/null &')
-#    templateData = {
-#        'title': 'Remote Controller',
-#        'ch': 'Selection : ' +  url,
-#        'error': ''
-#    }
-#    return render_template('index.html', **templateData)
 
 @app.route('/shutdown', methods=['POST'])
 def shutDown():
