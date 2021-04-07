@@ -55,10 +55,10 @@ def setCh():
 @app.route('/custom', methods=['POST'])
 def customStream():
     url = request.form["addr"]
-    yt-dl = request.form["yt"]
+    yt_dl = request.form["yt"]
     stop()
-    print(str(yt-dl)) #debug
-    if yt-dl == "0":
+    print(str(yt_dl)) #debug
+    if yt_dl == "0":
         os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + url + ' > nohup.out 2> nohup.err < /dev/null &')
     else:
         os.system('nohup omxplayer --live -o alsa:hw:CARD=Device $(youtube-dl -g -f mp4 ' + url + ') > nohup.out 2> nohup.err < /dev/null &')
