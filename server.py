@@ -67,7 +67,8 @@ def customStream():
         'ch': 'Selection : ' +  url,
         'error': ''
     }
-    return render_template('index.html', **templateData)
+    #return render_template('index.html', **templateData)
+    return redirect(url_for('index', **templateData))
 
 
 #@app.route('/customyt', methods=['POST'])
