@@ -54,10 +54,15 @@ def setCh():
 
 @app.route('/custom', methods=['POST'])
 def customStream():
-    stream = request.form["addr"]
+    url = request.form["addr"]
     stop()
-    os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + stream + ' > nohup.out 2> nohup.err < /dev/null &')
-    return redirect(request.referrer)
+    os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + url + ' > nohup.out 2> nohup.err < /dev/null &')
+    templateData = {
+        'title': 'Remote Controller',
+        'ch': 'Selection : ' +  url,
+        'error': ''
+    }
+    return render_template('index.html', **templateData)
 
 
 @app.route('/customyt', methods=['POST'])
@@ -65,8 +70,12 @@ def customYT():
     url = request.form["addr"]
     stop()
     os.system('nohup omxplayer --live -o alsa:hw:CARD=Device $(youtube-dl -g -f mp4 ' + url + ') > nohup.out 2> nohup.err < /dev/null &')
-    return redirect(request.referrer)
-
+    templateData = {
+        'title': 'Remote Controller',
+        'ch': 'Selection : ' +  url,
+        'error': ''
+    }
+    return render_template('index.html', **templateData)
 
 @app.route('/shutdown', methods=['POST'])
 def shutDown():
