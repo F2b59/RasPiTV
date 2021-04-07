@@ -55,8 +55,13 @@ def setCh():
 @app.route('/custom', methods=['POST'])
 def customStream():
     url = request.form["addr"]
+    yt-dl = request.form["yt"]
     stop()
-    os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + url + ' > nohup.out 2> nohup.err < /dev/null &')
+    print(str(yt-dl)) #debug
+    if yt-dl == "0":
+        os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + url + ' > nohup.out 2> nohup.err < /dev/null &')
+    else:
+        os.system('nohup omxplayer --live -o alsa:hw:CARD=Device $(youtube-dl -g -f mp4 ' + url + ') > nohup.out 2> nohup.err < /dev/null &')
     templateData = {
         'title': 'Remote Controller',
         'ch': 'Selection : ' +  url,
@@ -65,17 +70,17 @@ def customStream():
     return render_template('index.html', **templateData)
 
 
-@app.route('/customyt', methods=['POST'])
-def customYT():
-    url = request.form["addr"]
-    stop()
-    os.system('nohup omxplayer --live -o alsa:hw:CARD=Device $(youtube-dl -g -f mp4 ' + url + ') > nohup.out 2> nohup.err < /dev/null &')
-    templateData = {
-        'title': 'Remote Controller',
-        'ch': 'Selection : ' +  url,
-        'error': ''
-    }
-    return render_template('index.html', **templateData)
+#@app.route('/customyt', methods=['POST'])
+#def customYT():
+#    url = request.form["addr"]
+#    stop()
+#    os.system('nohup omxplayer --live -o alsa:hw:CARD=Device $(youtube-dl -g -f mp4 ' + url + ') > nohup.out 2> nohup.err < /dev/null &')
+#    templateData = {
+#        'title': 'Remote Controller',
+#        'ch': 'Selection : ' +  url,
+#        'error': ''
+#    }
+#    return render_template('index.html', **templateData)
 
 @app.route('/shutdown', methods=['POST'])
 def shutDown():
