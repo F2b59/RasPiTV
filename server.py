@@ -33,7 +33,7 @@ def index():
         ch = []
     elif len(ch) == 1:
         tmp = ch.copy()
-        sleep(2) # waiting time
+        sleep(1.5) # waiting time
         if ch == tmp:
             channel_nb = int(''.join(ch))
             channel = channels.List[channel_nb - 1][0] # get the address of the stream
@@ -99,7 +99,7 @@ def reboot():
         templateData['error'] = 'Failed to reboot'
         return render_template('index.html', **templateData)
     templateData['ch'] = 'Reboot'
-    return render_template('reboot.html', **templateData)
+    return render_template('index.html', **templateData)
 
 
 @app.route('/stop', methods=['POST'])
