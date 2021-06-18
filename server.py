@@ -14,6 +14,10 @@ for line in logos.raspitv:
     print(line)
 os.system('hostname -I')
 
+@app.route('/favicon.ico') # from https://stackoverflow.com/questions/48863061/favicon-ico-results-in-404-error-in-flask-app
+def favicon(): 
+    return send_from_directory(os.path.join(app.root_path, 'home/pi/RasPiTV/templates'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 
 @app.route('/')
 def index():
