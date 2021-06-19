@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import os
-from flask import Flask, render_template, render_template_string, redirect, url_for, request
+from flask import Flask, render_template, render_template_string, redirect, url_for, request, send_from_directory
 from time import sleep
 app = Flask(__name__)
 
