@@ -128,7 +128,7 @@ def stop():
 
 @app.route('/list')
 def displayList():
-    return '<html><body>' + '<br>'.join([str(i+1) + ' - ' + channels.List[i][1] + ' - ' + channels.List[i][0] for i in range(len(channels.List))]) + '</body></html>'
+    return '<html>\n<body>\n\n' + '<br>\n'.join([str(i+1) + ' - ' + channels.List[i][1] + ' - ' + channels.List[i][0] for i in range(len(channels.List))]) + '\n\n</body>\n</html>'
 
 
 if __name__ == '__main__':
