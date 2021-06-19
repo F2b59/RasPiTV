@@ -15,7 +15,7 @@ for line in logos.raspitv:
 os.system('hostname -I')
 
 @app.route('/favicon.ico') # from https://stackoverflow.com/questions/48863061/favicon-ico-results-in-404-error-in-flask-app
-def favicon(): 
+def favicon():
     return send_from_directory(os.path.join(app.root_path, 'templates'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
@@ -33,6 +33,7 @@ def index():
             channel = channels.List[channel_nb - 1][0] # get the address of the stream
         except:
             templateData['error'] = 'Index out of range'
+            ch = []
             return render_template('index.html', **templateData)
         stop() #os.system('killall omxplayer.bin')
         for line in logos.List[channel_nb - 1]:
