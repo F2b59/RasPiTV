@@ -123,7 +123,12 @@ def stop():
 
 @app.route('/list')
 def displayList():
-    return '<html>\n<body>\n\n' + '<br>\n'.join([str(i+1) + ' - ' + channels.L[i][1] + ' - ' + channels.L[i][0] for i in range(len(channels.L))]) + '\n\n</body>\n</html>'
+    html = '<html>\n<body>\n\n'
+    html += '<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">\n<title>Liste des chaînes</title>\n<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">\n<style>body{height:100%;margin:5%;color:#f0f0f0;background-color:#333333;font-family:\'IBM Plex Sans\',sans-serif;align-items:left;}</style>\n</head>\n'
+    html += '<body>\n\n<b><a href="/">Retour</a></b><br>\n'
+    html += '<br>\n'.join([str(i+1) + ' - ' + channels.L[i][1] + ' - ' + channels.L[i][0] for i in range(len(channels.L))])
+    html += '\n\n</body>\n</html>'
+    return   html
 
 
 if __name__ == '__main__':
