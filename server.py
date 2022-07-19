@@ -28,30 +28,44 @@ def favicon():
 def index():
     global ch
     global templateData
+    
     if len(ch) == 2:
         channel_nb = int(''.join(ch))
         try:
             channel = channels.L[channel_nb - 1][0] # get the address of the stream
         except:
-            templateData['error'] = 'Index out of range'
+            templateData['error'] = 'Channel 00.000.0.0.................Index out of range'
+            templateData['ch'] = ''
             ch = []
             return render_template('index.html', **templateData)
         stop() #os.system('killall omxplayer.bin')
-        for line in logos.L[channel_nb - 1]:
-            print(line)
+        try:
+            for line in logos.L[channel_nb - 1]:
+                print(line)
+        except:
+            print("Starting stream of channel " + str(channel_nb))
         os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
+        templateData['ch'] = 'Selection : ' + ''.join(ch)
         ch = []
+    
     elif len(ch) == 1:
         tmp = ch.copy()
+        templateData['ch'] = 'Selection : ' + ch[0] + ' _'
+        render_template('index.html', **templateData)
         sleep(1.5) # waiting time
         if ch == tmp:
             channel_nb = int(''.join(ch))
             channel = channels.L[channel_nb - 1][0] # get the address of the stream
             stop() #os.system('killall omxplayer.bin')
-            for line in logos.L[channel_nb - 1]:
-                print(line)
+            try:
+                for line in logos.L[channel_nb - 1]:
+                    print(line)
+            except:
+                print("Starting stream of channel " + str(channel_nb))
             os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
+            templateData['ch'] = 'Selection : ' + ch[0]
             ch = []
+    
     return render_template('index.html', **templateData)
 
 
