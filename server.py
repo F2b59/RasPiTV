@@ -9,6 +9,11 @@ import channels # list of channels
 import logos # list of logos
 
 ch = []  # list of char
+templateData = {
+    'title': 'Remote Controller',
+    'ch': 'Selection : ' + ''.join(ch),
+    'error': ''
+}
 
 for line in logos.raspitv:
     print(line)
@@ -22,21 +27,17 @@ def favicon():
 @app.route('/')
 def index():
     global ch
-    templateData = {
-        'title': 'Remote Controller',
-        'ch': 'Selection : ' + ''.join(ch),
-        'error': ''
-    }
+    global templateData
     if len(ch) == 2:
         channel_nb = int(''.join(ch))
         try:
-            channel = channels.List[channel_nb - 1][0] # get the address of the stream
+            channel = channels.L[channel_nb - 1][0] # get the address of the stream
         except:
             templateData['error'] = 'Index out of range'
             ch = []
             return render_template('index.html', **templateData)
         stop() #os.system('killall omxplayer.bin')
-        for line in logos.List[channel_nb - 1]:
+        for line in logos.L[channel_nb - 1]:
             print(line)
         os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
         ch = []
@@ -45,9 +46,9 @@ def index():
         sleep(1.5) # waiting time
         if ch == tmp:
             channel_nb = int(''.join(ch))
-            channel = channels.List[channel_nb - 1][0] # get the address of the stream
+            channel = channels.L[channel_nb - 1][0] # get the address of the stream
             stop() #os.system('killall omxplayer.bin')
-            for line in logos.List[channel_nb - 1]:
+            for line in logos.L[channel_nb - 1]:
                 print(line)
             os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
             ch = []
@@ -128,7 +129,7 @@ def stop():
 
 @app.route('/list')
 def displayList():
-    return '<html>\n<body>\n\n' + '<br>\n'.join([str(i+1) + ' - ' + channels.List[i][1] + ' - ' + channels.List[i][0] for i in range(len(channels.List))]) + '\n\n</body>\n</html>'
+    return '<html>\n<body>\n\n' + '<br>\n'.join([str(i+1) + ' - ' + channels.L[i][1] + ' - ' + channels.L[i][0] for i in range(len(channels.L))]) + '\n\n</body>\n</html>'
 
 
 if __name__ == '__main__':

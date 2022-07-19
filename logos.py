@@ -183,4 +183,4 @@ ch19 = ["MMMMMMMMMMMMMMMMMMMMMMMXo'....lKWMMMMMMM",
         "MMMMMMMMMMMMMMMMWXxc;'...........':dKWMM",
         "MMMMMMMMMMMMMMMMMMMNX0o:'.....';oONMMMMM"]
 
-List = [ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, [], [], [], [], [], [], [], [], [], ch19, [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+L = [ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, [], [], [], [], [], [], [], [], [], ch19, [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]

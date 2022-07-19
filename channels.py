@@ -1,7 +1,7 @@
 # addresses for French TV
 # source : https://github.com/HugoPoi/9boxtv/blob/master/playlist_tv_sfr_072020.m3u
 
-List = [('rtp://233.32.36.161:7500/3161', 'TF1'),
+L = [('rtp://233.32.36.161:7500/3161', 'TF1'),
         ('rtp://233.32.36.99:7500/4304', 'Fr2'),
         ('rtp://233.32.36.62:7500/362', 'Fr3NPDC'),
         ('rtp://233.32.36.122:7500/3122', 'Canal+'),
