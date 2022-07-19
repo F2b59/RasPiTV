@@ -2,6 +2,7 @@
 import os
 from flask import Flask, render_template, render_template_string, redirect, url_for, request, send_from_directory
 from time import sleep
+import threading
 app = Flask(__name__)
 
 
@@ -24,7 +25,7 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'templates'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
-@app.route('/')
+@app.route('/') ### presque OK ###
 def index():
     global ch
     global templateData
@@ -34,7 +35,7 @@ def index():
         try:
             channel = channels.L[channel_nb - 1][0] # get the address of the stream
         except:
-            templateData['error'] = 'Channel 00.000.0.0.................Index out of range'
+            templateData['error'] = 'Channel Index out of range'
             templateData['ch'] = ''
             ch = []
             return render_template('index.html', **templateData)
@@ -50,8 +51,6 @@ def index():
     
     elif len(ch) == 1:
         tmp = ch.copy()
-        templateData['ch'] = 'Selection : ' + ch[0] + ' _'
-        render_template('index.html', **templateData)
         sleep(1.5) # waiting time
         if ch == tmp:
             channel_nb = int(''.join(ch))
@@ -66,18 +65,21 @@ def index():
             templateData['ch'] = 'Selection : ' + ch[0]
             ch = []
     
+    templateData['error'] = ''
     return render_template('index.html', **templateData)
 
 
 @app.route('/setch', methods=['POST'])
 def setCh():
     global ch
+    #global templateData
     ch.append(request.form["ch_select"])
     return redirect(request.referrer)
 
 
 @app.route('/custom', methods=['POST'])
 def customStream():
+    global templateData
     url = request.form["addr"]
     yt_dl = request.form["yt"]
     stop()
@@ -86,28 +88,21 @@ def customStream():
         os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + url + ' > nohup.out 2> nohup.err < /dev/null &')
     else:
         os.system('nohup omxplayer --live -o alsa:hw:CARD=Device $(youtube-dl -g -f mp4 ' + url + ') > nohup.out 2> nohup.err < /dev/null &')
-    templateData = {
-        'title': 'Remote Controller',
-        'ch': 'Selection : ' +  url,
-        'error': ''
-    }
+    templateData['ch'] = 'Selection : ' +  url
     return redirect(request.referrer)
 
 
 @app.route('/shutdown', methods=['POST'])
 def shutDown():
-    templateData = {
-        'title': 'Remote Controller',
-        'ch': '',
-        'error': ''
-    }
+    global templateData
     try:
         os.system('sudo shutdown -h now')
     except:
         templateData['error'] = 'Failed to shut down'
         return render_template('index.html', **templateData)
     templateData['ch'] = 'Shut Down'
-    return render_template('index.html', **templateData)
+    return redirect(request.referrer)
+#    return render_template('index.html', **templateData)
 
 
 @app.route('/reboot', methods=['POST'])
@@ -128,14 +123,12 @@ def reboot():
 
 @app.route('/stop', methods=['POST'])
 def stop():
-    templateData = {
-        'title': 'Remote Controller',
-        'ch': '',
-        'error': ''
-    }
+    global templateData
+    templateData['ch'] = 'Selection : '
     try:
         os.system('killall omxplayer.bin')
     except:
+        templateData['ch'] = ''
         templateData['error'] = 'Failed to kill OMXPlayer'
         return render_template('index.html', **templateData)
     return redirect(request.referrer)
