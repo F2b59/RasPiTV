@@ -2,7 +2,6 @@
 import os
 from flask import Flask, render_template, render_template_string, redirect, url_for, request, send_from_directory
 from time import sleep
-import threading
 app = Flask(__name__)
 
 
@@ -25,7 +24,7 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'templates'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
-@app.route('/') ### presque OK ###
+@app.route('/')
 def index():
     global ch
     global templateData
@@ -72,7 +71,6 @@ def index():
 @app.route('/setch', methods=['POST'])
 def setCh():
     global ch
-    #global templateData
     ch.append(request.form["ch_select"])
     return redirect(request.referrer)
 
@@ -95,30 +93,19 @@ def customStream():
 @app.route('/shutdown', methods=['POST'])
 def shutDown():
     global templateData
-    try:
-        os.system('sudo shutdown -h now')
-    except:
-        templateData['error'] = 'Failed to shut down'
-        return render_template('index.html', **templateData)
+    stop()
+    os.system('nohup $(sleep 0.2 && shutdown -h now) &')
     templateData['ch'] = 'Shut Down'
     return redirect(request.referrer)
-#    return render_template('index.html', **templateData)
 
 
-@app.route('/reboot', methods=['POST'])
+@app.route('/reboot', methods=['GET']) # not used
 def reboot():
-    templateData = {
-        'title': 'Remote Controller',
-        'ch': '',
-        'error': ''
-    }
-    try:
-        os.system('sudo reboot')
-    except:
-        templateData['error'] = 'Failed to reboot'
-        return render_template('index.html', **templateData)
+    global templateData
+    stop()
+    os.system('nohup $(sleep 0.2 && reboot) &')
     templateData['ch'] = 'Reboot'
-    return render_template('index.html', **templateData)
+    return redirect(request.referrer)
 
 
 @app.route('/stop', methods=['POST'])
