@@ -85,7 +85,7 @@ def customStream():
     if yt_dl == "0":
         os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + url + ' > nohup.out 2> nohup.err < /dev/null &')
     else:
-        os.system('nohup omxplayer --live -o alsa:hw:CARD=Device $(youtube-dl -g -f mp4 ' + url + ') > nohup.out 2> nohup.err < /dev/null &')
+        os.system('nohup omxplayer --live -o alsa:hw:CARD=Device $(youtube-dl -g -f "(mp4)[height<=480]" ' + url + ') > nohup.out 2> nohup.err < /dev/null &') # remove the height<=480 condition for full size
     templateData['ch'] = 'Selection : ' +  url
     return redirect(request.referrer)
 
