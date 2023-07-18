@@ -5,8 +5,8 @@ from time import sleep
 app = Flask(__name__)
 
 
-import channels # list of channels
-import logos # list of logos
+from channels import chList # list of channels
+from logos import logo # list of logos
 
 ch = []  # list of char
 templateData = {
@@ -15,7 +15,7 @@ templateData = {
     'error': ''
 }
 
-for line in logos.raspitv:
+for line in logo[0]:
     print(line)
 os.system('hostname -I')
 
@@ -30,9 +30,9 @@ def index():
     global templateData
     
     if len(ch) == 2:
-        channel_nb = int(''.join(ch))
+        channelNb = int(''.join(ch))
         try:
-            channel = channels.L[channel_nb - 1][0] # get the address of the stream
+            channel = chList[channelNb - 1][0] # get the address of the stream
         except:
             templateData['error'] = 'Channel Index out of range'
             templateData['ch'] = ''
@@ -40,10 +40,10 @@ def index():
             return render_template('index.html', **templateData)
         stop() #os.system('killall omxplayer.bin')
         try:
-            for line in logos.L[channel_nb - 1]:
+            for line in logo[channelNb]:
                 print(line)
         except:
-            print("Starting stream of channel " + str(channel_nb))
+            print("Starting stream of channel " + str(channelNb))
         os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
         templateData['ch'] = 'Selection : ' + ''.join(ch)
         ch = []
@@ -52,14 +52,14 @@ def index():
         tmp = ch.copy()
         sleep(1.5) # waiting time
         if ch == tmp:
-            channel_nb = int(''.join(ch))
-            channel = channels.L[channel_nb - 1][0] # get the address of the stream
+            channelNb = int(''.join(ch))
+            channel = chList[channelNb - 1][0] # get the address of the stream
             stop() #os.system('killall omxplayer.bin')
             try:
-                for line in logos.L[channel_nb - 1]:
+                for line in logo[channelNb]:
                     print(line)
             except:
-                print("Starting stream of channel " + str(channel_nb))
+                print("Starting stream of channel " + str(channelNb))
             os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
             templateData['ch'] = 'Selection : ' + ch[0]
             ch = []
@@ -126,7 +126,7 @@ def displayList():
     html = '<html>\n<body>\n\n'
     html += '<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">\n<title>Liste des chaînes</title>\n<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">\n<style>body{height:100%;margin:5%;color:#f0f0f0;background-color:#333333;font-family:\'IBM Plex Sans\',sans-serif;align-items:left;}</style>\n</head>\n'
     html += '<body>\n\n<b><a href="/">Retour</a></b><br>\n'
-    html += '<br>\n'.join([str(i+1) + ' - ' + channels.L[i][1] + ' - ' + channels.L[i][0] for i in range(len(channels.L))])
+    html += '<br>\n'.join([str(i+1) + ' - ' + chList[i][1] + ' - ' + chList[i][0] for i in range(len(chList))])
     html += '\n\n</body>\n</html>'
     return   html
 
