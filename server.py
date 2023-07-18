@@ -18,7 +18,7 @@ templateData = {
 for line in logo[0]:
     print(line)
 os.system('hostname -I')
-
+10
 @app.route('/favicon.ico') # from https://stackoverflow.com/questions/48863061/favicon-ico-results-in-404-error-in-flask-app
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'templates'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
