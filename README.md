@@ -19,7 +19,7 @@ I'm assuming you're using Raspberry Pi OS (aka Raspbian) with username `pi`.
 4. Strongly recommended: increase GPU memory to at least 128MB (I set it to 192MB for my Pi Zero W but feel free to try other values)
 5. As this program is taylored for my own configuration, you might want to modify the omxplayer command (for example, remove the `-o alsa:hw:CARD=Device` parameter if you want the audio to be sent to the HDMI instead of dedicated card)
 6. Put your streams in `channels.py`. The file `channels_hd.py` isn't used by the program by default. You can put ASCII-style logos in `logos.py`
-7. If you plan to play videos from Youtube, download and install the latest version of [Youtube-dl](https://youtube-dl.org/)
+7. **Youtube-DL is temporarily not supported.** If you plan to play videos from Youtube, download and install the latest version of [Youtube-dl](https://youtube-dl.org/)
 
 **Important notes**
 * If you did follow the steps above, then the server starts automatically on startup. It is run **as root**. I know this isn't good practice, and VLC complains about it. Maybe it will be improved in the future, maybe not.
