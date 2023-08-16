@@ -24,6 +24,15 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'templates'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
+def play(url):
+    # Old command, using OMXplayer (deprecated starting from Debian 11)
+    #command = 'nohup omxplayer --live -o alsa:hw:CARD=Device ' + url + ' > nohup.out 2> nohup.err < /dev/null &'
+    # Now, it is recommended to use VLC
+    # Please change the user if it's not "pi"
+    command = 'nohup sudo -u pi cvlc --alsa-audio-device hw:CARD=Device --play-and-exit "' + url + '" > nohup.out 2> nohup.err < /dev/null &'
+    os.system(command)
+
+
 @app.route('/')
 def index():
     global ch
@@ -44,7 +53,7 @@ def index():
                 print(line)
         except:
             print("Starting stream of channel " + str(channelNb))
-        os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
+        play(channel)
         templateData['ch'] = 'Selection : ' + ''.join(ch)
         ch = []
     
@@ -60,7 +69,7 @@ def index():
                     print(line)
             except:
                 print("Starting stream of channel " + str(channelNb))
-            os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + channel + ' > nohup.out 2> nohup.err < /dev/null &')
+            play(channel)
             templateData['ch'] = 'Selection : ' + ch[0]
             ch = []
     
@@ -83,9 +92,10 @@ def customStream():
     stop()
     print(str(yt_dl)) #debug
     if yt_dl == "0":
-        os.system('nohup omxplayer --live -o alsa:hw:CARD=Device ' + url + ' > nohup.out 2> nohup.err < /dev/null &')
+        play(url)
     else:
-        os.system('nohup omxplayer --live -o alsa:hw:CARD=Device $(youtube-dl -g -f "(mp4)[height<=480]" ' + url + ') > nohup.out 2> nohup.err < /dev/null &') # remove the height<=480 condition for full size
+        #os.system('nohup omxplayer --live -o alsa:hw:CARD=Device $(youtube-dl -g -f "(mp4)[height<=480]" ' + url + ') > nohup.out 2> nohup.err < /dev/null &') # remove the height<=480 condition for full size
+        play('$(youtube-dl -g -f "(mp4)[height<=480]" ' + url + ')') # à tester
     templateData['ch'] = 'Selection : ' +  url
     return redirect(request.referrer)
 
@@ -110,13 +120,14 @@ def reboot():
 
 @app.route('/stop', methods=['POST'])
 def stop():
+    # if using OMXplayer, simply replace "vlc" by "omxplayer.bin"
     global templateData
     templateData['ch'] = 'Selection : '
     try:
-        os.system('killall omxplayer.bin')
+        os.system('killall vlc')
     except:
         templateData['ch'] = ''
-        templateData['error'] = 'Failed to kill OMXPlayer'
+        templateData['error'] = 'Failed to kill VLC'
         return render_template('index.html', **templateData)
     return redirect(request.referrer)
 
