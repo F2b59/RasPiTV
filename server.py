@@ -26,10 +26,10 @@ def favicon():
 
 def play(url):
     # Old command, using OMXplayer (deprecated starting from Debian 11)
-    #command = 'nohup omxplayer --live -o alsa:hw:CARD=Device ' + url + ' > nohup.out 2> nohup.err < /dev/null &'
+    command = 'nohup omxplayer --live -o alsa:hw:CARD=Device ' + url + ' > nohup.out 2> nohup.err < /dev/null &'
     # Now, it is recommended to use VLC
     # Please change the user if it's not "pi"
-    command = 'nohup sudo -u pi cvlc --alsa-audio-device hw:CARD=Device --play-and-exit "' + url + '" > nohup.out 2> nohup.err < /dev/null &'
+    #command = 'nohup sudo -u pi cvlc --alsa-audio-device hw:CARD=Device --play-and-exit "' + url + '" > nohup.out 2> nohup.err < /dev/null &'
     os.system(command)
 
 
@@ -124,10 +124,10 @@ def stop():
     global templateData
     templateData['ch'] = 'Selection : '
     try:
-        os.system('killall vlc')
+        os.system('killall omxplayer.bin')
     except:
         templateData['ch'] = ''
-        templateData['error'] = 'Failed to kill VLC'
+        templateData['error'] = 'Failed to kill OMXplayer'
         return render_template('index.html', **templateData)
     return redirect(request.referrer)
 
